@@ -1,0 +1,9 @@
+User
+has_many :topics
+    :username - string, :
+
+
+Topic
+belongs_to :User
+    :account_id - integer
+
