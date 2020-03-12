@@ -5,5 +5,9 @@ has_many :topics
 
 Topic
 belongs_to :User
-    :account_id - integer
+    :user_id - integer
 
+Comment
+belongs_to :User
+belongs_to :Topic
+    :content
