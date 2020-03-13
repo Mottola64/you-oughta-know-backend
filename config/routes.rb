@@ -4,7 +4,7 @@ namespace :api do
   namespace :v1 do
     resources :topics
     resources :users
-    resources :comments
+      resources :comments
   end
 end
 

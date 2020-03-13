@@ -1,9 +1,9 @@
 class Api::V1::CommentsController < ApplicationController
     before_action :set_comment, only: [:show, :update, :destroy]
+    before_action :set_user
   
     def index
-      @comments = Comment.all
-  
+      @comments = @user.comments
       render json: @comments
     end
   
@@ -12,12 +12,12 @@ class Api::V1::CommentsController < ApplicationController
     end
   
     def create
-      @comment = Comment.new(comment_params)
+      @comment = @user.comments.new(comment_params)
   
       if @comment.save
         render json: @comment, status: :created
       else
-        render json: @comment.errors, status: :unprocessable_entity
+        render json: {error: 'Unable To Save Comment'}
       end
     end
   
@@ -34,6 +34,10 @@ class Api::V1::CommentsController < ApplicationController
     end
   
     private
+      def set_user
+        @user = User.find(params[:user_id])
+      end
+
       def set_comment
         @comment = Comment.find(params[:id])
       end
