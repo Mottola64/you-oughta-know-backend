@@ -1,5 +1,4 @@
 class Api::V1::TopicsController < ApplicationController
-    before_action :set_topic, only: [:show, :update, :destroy]
 
     def index
         @topics = Topic.all
@@ -7,6 +6,7 @@ class Api::V1::TopicsController < ApplicationController
     end
 
     def show
+        @topic = Topic.find(params[:id])
         render json: @topic
     end
 
@@ -29,14 +29,11 @@ class Api::V1::TopicsController < ApplicationController
     end
 
     def destroy
+        @topic = Topic.find(params[:id])
         @topic.destroy
     end
 
     private
-
-    def set_topic
-        @topic = Topic.find(params[:id])
-    end
 
     def topic_params
         params.require(:topic).permit(:name, :description, :category)

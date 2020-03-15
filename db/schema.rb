@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_03_12_051820) do
 
   create_table "comments", force: :cascade do |t|
+    t.integer "topic_id"
     t.string "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

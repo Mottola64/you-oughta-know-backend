@@ -1,13 +1,13 @@
 class Api::V1::CommentsController < ApplicationController
-    before_action :set_comment, only: [:show, :update, :destroy]
-    before_action :set_user
+    before_action :set_topic
   
     def index
-      @comments = @user.comments
+      @comments = @topic.comments
       render json: @comments
     end
   
     def show
+      @comment = Comment.find(params[:id])
       render json: @comment
     end
   
@@ -30,16 +30,13 @@ class Api::V1::CommentsController < ApplicationController
     end
 
     def destroy
+      @comment = Comment.find(params[:id])
       @comment.destroy
     end
   
     private
-      def set_user
-        @user = User.find(params[:user_id])
-      end
-
-      def set_comment
-        @comment = Comment.find(params[:id])
+      def set_topic
+        @topic = Topic.find(params[:topic_id])
       end
 
       def comment_params
