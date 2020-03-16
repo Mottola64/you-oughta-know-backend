@@ -11,8 +11,8 @@ class Api::V1::TopicsController < ApplicationController
     end
 
     def create
-        @topic = Topic.new(topic_params)
-
+        user = User.first
+        @topic = user.topics.new(topic_params)
         if @topic.save
             render json: @topic
         else
@@ -36,6 +36,6 @@ class Api::V1::TopicsController < ApplicationController
     private
 
     def topic_params
-        params.require(:topic).permit(:name, :description, :category)
+        params.require(:topic).permit(:title, :description, :category, :id)
     end
 end
