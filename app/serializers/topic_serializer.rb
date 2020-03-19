@@ -3,5 +3,5 @@ class TopicSerializer < ActiveModel::Serializer
   
   # , :user_id
 
-  # has_many :comments
+  has_many :comments
 end

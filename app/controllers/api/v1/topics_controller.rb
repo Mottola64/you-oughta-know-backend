@@ -5,11 +5,6 @@ class Api::V1::TopicsController < ApplicationController
         render json: @topics
     end
 
-    def show
-        @topic = Topic.find(params[:id])
-        render json: @topic
-    end
-
     def create
         user = User.first
         @topic = user.topics.new(topic_params)
@@ -18,6 +13,11 @@ class Api::V1::TopicsController < ApplicationController
         else
             render json: {error: 'Error Creating Topic'}
         end
+    end
+
+    def show
+        @topic = Topic.find(params[:id])
+        render json: @topic
     end
 
     def update
@@ -36,6 +36,6 @@ class Api::V1::TopicsController < ApplicationController
     private
 
     def topic_params
-        params.require(:topic).permit(:title, :description, :category, :id)
+        params.require(:topic).permit(:title, :description, :category)
     end
 end
