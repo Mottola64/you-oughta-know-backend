@@ -1,22 +1,24 @@
 class Api::V1::CommentsController < ApplicationController
     def index
-      binding.pry
       @comments = Comment.all
       render json: @comments
     end
   
     def show
       @topic = Topic.find(params[:topic_id])
-      @comment = Comment.find(params[:id])
+      comment = Comment.find(params[:id])
       render json: @comment
     end
   
     def create
-      topic = Topic.find(params[:topic_id])
-      @comment = topic.comments.new(comment_params)
-  
-      if @comment.save
-        render json: @comment, status: :created
+      user = User.first
+
+      @topic = Topic.find(params[:topic_id])
+      comment = @topic.comments.new(comment_params)
+      comment.user_id = user.id
+      
+      if comment.save
+        render json: @topic, status: :created
       else
         render json: {error: 'Unable To Save Comment'}
       end
@@ -32,7 +34,7 @@ class Api::V1::CommentsController < ApplicationController
 
     def destroy
       @topic = Topic.find(params[:topic_id])
-      @comment = Comment.find(params[:id])
+      comment = Comment.find(params[:id])
       @comment.destroy
     end
   
@@ -40,6 +42,6 @@ class Api::V1::CommentsController < ApplicationController
 
 
       def comment_params
-        params.require(:comment).permit(:content)
+        params.require(:comment).permit(:content, :topic_id, :user_id)
       end
 end
